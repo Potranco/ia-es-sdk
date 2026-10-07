@@ -1,0 +1,32 @@
+{
+  "name": "ia-es-sdk",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/ia-es-sdk.es.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^8.3.0"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/ia-es-sdk.es.js",
+      "require": "./dist/ia-es-sdk.umd.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@vitest/browser": "^5.0.3",
+    "@vitest/coverage-v8": "^5.0.3",
+    "vitest": "^5.0.3"
+  }
+}
