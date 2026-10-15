@@ -1,15 +1,27 @@
 //#region src/ollama/index.js
-var e = typeof process < "u" && process.env?.OLLAMA_HOST || "http://192.168.1.128:11434", t = e + "/api/tags", n = e + "/api/generate", r = e + "/api/ps", i = e + "/api/chat";
-async function a() {
+var e = "http://localhost:11434";
+function t(t) {
+	e = t;
+}
+function n(t) {
+	switch (t) {
+		case "URL_MODELS": return e + "/api/tags";
+		case "URL_GENERATE": return e + "/api/generate";
+		case "URL_LOADED_MODELS": return e + "/api/ps";
+		case "URL_CHAT": return e + "/api/chat";
+		default: return e;
+	}
+}
+async function r() {
 	try {
 		return (await fetch(e, { method: "GET" })).ok;
 	} catch (e) {
 		throw e;
 	}
 }
-async function o(e, t) {
+async function i(e, t) {
 	try {
-		return (await (await fetch(n, {
+		return (await (await fetch(n("URL_GENERATE"), {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({
@@ -22,31 +34,31 @@ async function o(e, t) {
 		throw e;
 	}
 }
-async function s() {
+async function a() {
 	try {
-		return (await (await fetch(t, { method: "GET" })).json()).models;
+		return (await (await fetch(n("URL_MODELS"), { method: "GET" })).json()).models;
 	} catch (e) {
 		throw e;
 	}
 }
-async function c() {
+async function o() {
 	try {
-		return (await (await fetch(r, { method: "GET" })).json()).models;
+		return (await (await fetch(n("URL_LOADED_MODELS"), { method: "GET" })).json()).models;
 	} catch (e) {
 		throw e;
 	}
 }
-async function l(e, t, { format: n, options: r, keepAlive: a } = {}) {
+async function s(e, t, { format: r, options: i, keepAlive: a } = {}) {
 	try {
-		return (await (await fetch(i, {
+		return (await (await fetch(n("URL_CHAT"), {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({
 				model: e,
 				messages: t,
 				stream: !1,
-				...n && { format: n },
-				...r && { options: r },
+				...r && { format: r },
+				...i && { options: i },
 				...a !== void 0 && { keep_alive: a }
 			})
 		})).json()).message;
@@ -54,14 +66,14 @@ async function l(e, t, { format: n, options: r, keepAlive: a } = {}) {
 		throw e;
 	}
 }
-var u = {
-	ask: o,
-	listModels: s,
-	loadedModels: c,
-	isRun: a,
-	chat: l
+var c = {
+	ask: i,
+	listModels: a,
+	loadedModels: o,
+	isRun: r,
+	chat: s
 };
 //#endregion
-export { o as ask, l as chat, a as isRun, s as listModels, c as loadedModels, u as ollama };
+export { i as ask, s as chat, n as getHost, r as isRun, a as listModels, o as loadedModels, c as ollama, t as setHost };
 
 //# sourceMappingURL=ia-es-sdk.es.js.map

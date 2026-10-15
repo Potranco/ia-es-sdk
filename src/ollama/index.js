@@ -1,14 +1,21 @@
 const OLLAMA_LOCAL = 'http://localhost:11434'
-const OLLAMA_SERVER = 'http://192.168.1.128:11434'
-const DEFAULT_BASE_URL = 
-  (typeof process !== 'undefined' && process.env?.OLLAMA_HOST) ||
-  (typeof import.meta !== 'undefined' && import.meta.env?.VITE_OLLAMA_HOST) ||
-  OLLAMA_SERVER
+const OLLAMA_SERVER = 'http://192.168.1.131:11434'
+let DEFAULT_BASE_URL = OLLAMA_LOCAL
 
-const URL_MODELS = DEFAULT_BASE_URL + '/api/tags'
-const URL_GENERATE = DEFAULT_BASE_URL + '/api/generate'
-const URL_LOADED_MODELS = DEFAULT_BASE_URL + '/api/ps'
-const URL_CHAT = DEFAULT_BASE_URL + '/api/chat'
+
+export function setHost(url) {
+    DEFAULT_BASE_URL = url
+}
+
+export function getHost(type) {
+    switch (type) {
+        case 'URL_MODELS': return DEFAULT_BASE_URL + '/api/tags'
+        case 'URL_GENERATE': return DEFAULT_BASE_URL + '/api/generate'
+        case 'URL_LOADED_MODELS': return DEFAULT_BASE_URL + '/api/ps'
+        case 'URL_CHAT': return DEFAULT_BASE_URL + '/api/chat'
+        default: return DEFAULT_BASE_URL
+    }
+}
 
 export async function isRun() {
     try {
@@ -21,7 +28,7 @@ export async function isRun() {
 
 export async function ask(prompt, model) {
     try {
-        const response = await fetch(URL_GENERATE, {
+        const response = await fetch(getHost('URL_GENERATE'), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -41,7 +48,7 @@ export async function ask(prompt, model) {
 
 export async function listModels() {
     try {
-        const response = await fetch(URL_MODELS, { method: 'GET' })
+        const response = await fetch(getHost('URL_MODELS'), { method: 'GET' })
         const data = await response.json()
         return data.models
     } catch(err) {
@@ -51,7 +58,7 @@ export async function listModels() {
 
 export async function loadedModels() {
     try {
-        const response = await fetch(URL_LOADED_MODELS, { method: 'GET' })
+        const response = await fetch(getHost('URL_LOADED_MODELS'), { method: 'GET' })
         const data = await response.json()
         return data.models
     } catch(err) {
@@ -69,7 +76,7 @@ messages: [{
 }]
 */
     try {
-        const response = await fetch(URL_CHAT, {
+        const response = await fetch(getHost('URL_CHAT'), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
