@@ -97,5 +97,6 @@ messages: [{
 }
 
 export default { 
-    ask, listModels, loadedModels, isRun, chat 
+    ask, listModels, loadedModels, isRun, chat,
+    setHost, getHost
 }

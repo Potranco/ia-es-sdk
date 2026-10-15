@@ -71,7 +71,9 @@ var c = {
 	listModels: a,
 	loadedModels: o,
 	isRun: r,
-	chat: s
+	chat: s,
+	setHost: t,
+	getHost: n
 };
 //#endregion
 export { i as ask, s as chat, n as getHost, r as isRun, a as listModels, o as loadedModels, c as ollama, t as setHost };
