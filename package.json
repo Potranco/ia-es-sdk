@@ -1,6 +1,6 @@
 {
   "name": "ia-es-sdk",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "main": "./dist/ia-es-sdk.es.js",
